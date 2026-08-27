@@ -124,8 +124,8 @@ readonly class DiscordAlert implements AlertInterface
 
         $this->internalVariableCache->saveKey($error->hash, ttl: 300);
 
-        $rawExceptionBody = JsonUtil::encode(new ThrowableDocument($error)->toArray($this->context));
-        $rawDocumentBody = JsonUtil::encode($input->toArray($this->context), true);
+        $rawExceptionBody = JsonUtil::encode(new ThrowableDocument($error)->json($this->context));
+        $rawDocumentBody = JsonUtil::encode($input->json($this->context), true);
         $exceptionType = $error::class;
         if ($error->getPrevious() !== null) {
             $exceptionType = $error->getPrevious()::class;
@@ -190,7 +190,7 @@ readonly class DiscordAlert implements AlertInterface
 
     private function publishEvenShorterThrowable(BaseException $error): void
     {
-        $errorDocument = new ThrowableDocument($error)->toArray($this->context);
+        $errorDocument = new ThrowableDocument($error)->json($this->context);
         unset($errorDocument['trace']);
         $rawExceptionBody = JsonUtil::encode($errorDocument);
         $exceptionType = $error::class;
@@ -215,7 +215,7 @@ readonly class DiscordAlert implements AlertInterface
 
     private function publishShortThrowable(BaseException $error): void
     {
-        $rawExceptionBody = JsonUtil::encode(new ThrowableDocument($error)->toArray($this->context));
+        $rawExceptionBody = JsonUtil::encode(new ThrowableDocument($error)->json($this->context));
         $exceptionType = $error::class;
         if ($error->getPrevious() !== null) {
             $exceptionType = $error->getPrevious()::class;

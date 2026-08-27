@@ -90,6 +90,22 @@ readonly class DocumentCollection extends Document implements IteratorAggregate,
     }
 
     /**
+     * @return mixed[]
+     */
+    public function json(?ContextInterface $context = null): array
+    {
+        $list = [];
+
+        foreach ($this as $item) {
+            $list[] = $item->json($context);
+        }
+
+        return [
+            'items' => $list,
+        ];
+    }
+
+    /**
      * @return T|null
      */
     public function last(): ?Document
@@ -175,21 +191,5 @@ readonly class DocumentCollection extends Document implements IteratorAggregate,
     public function reverse(): self
     {
         return new self(array_reverse($this->items));
-    }
-
-    /**
-     * @return mixed[]
-     */
-    public function toArray(?ContextInterface $context = null): array
-    {
-        $list = [];
-
-        foreach ($this as $item) {
-            $list[] = $item->toArray($context);
-        }
-
-        return [
-            'items' => $list,
-        ];
     }
 }

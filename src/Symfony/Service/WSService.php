@@ -26,7 +26,7 @@ readonly class WSService
         }
 
         try {
-            $data = $data->toArray();
+            $data = $data->json();
             $this->hub->publish(new Update("/{$topic}", JsonUtil::encode([
                 'payload' => $data,
                 'topic' => $data['topic'] ?? $topic,

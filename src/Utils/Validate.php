@@ -300,7 +300,7 @@ class Validate
             throw new InvalidArgumentException(
                 'maxResults',
                 $maxResults,
-                condition: 'AND maxResults >= 1 AND maxResults < 1000'
+                condition: 'AND maxResults >= 1 AND maxResults < 1000',
             );
         }
 
@@ -308,7 +308,7 @@ class Validate
             throw new InvalidArgumentException(
                 'page',
                 $page,
-                condition: 'page >= 1'
+                condition: 'page >= 1',
             );
         }
     }

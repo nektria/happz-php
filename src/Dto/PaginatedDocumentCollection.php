@@ -20,9 +20,9 @@ readonly class PaginatedDocumentCollection extends Document
     ) {
     }
 
-    public function toArray(?ContextInterface $context = null): array
+    public function json(?ContextInterface $context = null): array
     {
-        $data = $this->items->toArray($context);
+        $data = $this->items->json($context);
         $data['page'] = $this->page;
         $data['pageSize'] = $this->pageSize;
         $data['totalItems'] = $this->totalItems;

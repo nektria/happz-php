@@ -16,7 +16,7 @@ readonly class __ENTITY__ extends Document
         public Clock $updatedAt,
     ) {}
 
-    public function toArray(?ContextInterface $context = null): array
+    public function json(?ContextInterface $context = null): array
     {
         return [
             'id' => $this->id,

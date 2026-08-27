@@ -23,11 +23,11 @@ class ThrowableDocument implements DocumentInterface
      */
     public static array $validPrefixTraceFiles = [
         '/app/src',
-        '/app/vendor/nektria/php-tools/src'
+        '/app/vendor/nektria/php-tools/src',
     ];
 
     public function __construct(
-        Throwable $throwable
+        Throwable $throwable,
     ) {
         $realThrowable = $throwable;
         while ($realThrowable instanceof BaseException) {
@@ -57,7 +57,7 @@ class ThrowableDocument implements DocumentInterface
         self::$validPrefixTraceFiles[] = $filePrefix;
     }
 
-    public function toArray(?ContextInterface $context = null): array
+    public function json(?ContextInterface $context = null): array
     {
         $message = $this->throwable->getMessage();
         $extras = null;

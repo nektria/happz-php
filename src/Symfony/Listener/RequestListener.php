@@ -252,7 +252,7 @@ abstract class RequestListener implements EventSubscriberInterface
                 $responseContent = [];
             }
         } else {
-            $responseContent = $document->toArray($this->service(ContextInterface::class));
+            $responseContent = $document->json($this->service(ContextInterface::class));
         }
 
         $queryBody = [];

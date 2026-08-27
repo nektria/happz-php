@@ -21,9 +21,9 @@ class DocumentResponse extends JsonResponse
         array $headers = [],
     ) {
         if ($this->document instanceof ThrowableDocument) {
-            parent::__construct($this->document->toArray($context), $this->document->status);
+            parent::__construct($this->document->json($context), $this->document->status);
         } else {
-            parent::__construct($this->document->toArray($context), $status);
+            parent::__construct($this->document->json($context), $status);
         }
 
         $this->headers->add($headers);

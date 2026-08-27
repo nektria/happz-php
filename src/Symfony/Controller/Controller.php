@@ -162,7 +162,7 @@ readonly class Controller
         $fixedParameters = [];
         foreach ($parameters as $key => $value) {
             if ($value instanceof DocumentInterface) {
-                $fixedParameters[$key] = $value->toArray(
+                $fixedParameters[$key] = $value->json(
                     $ignoreContext ?
                         null :
                         $this->service(ContextInterface::class),

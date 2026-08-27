@@ -105,7 +105,7 @@ readonly class Logger implements LoggerInterface
                     'line' => $throwable->getLine(),
                     'trace' => $clearTrace,
                 ],
-                'input' => ($input ?? new ArrayDocument([]))->toArray($this->context),
+                'input' => ($input ?? new ArrayDocument([]))->json($this->context),
             ];
 
             $data = array_merge($payload, $data);
