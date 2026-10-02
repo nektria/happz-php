@@ -1,5 +1,5 @@
 {
-  "name": "nektria/php-tools",
+  "name": "happz/php",
   "type": "library",
   "description": "Xgc PHP tools",
   "minimum-stability": "stable",
@@ -12,7 +12,7 @@
   "authors": [
     {
       "name": "Javier Gonzalez Cuadrado",
-      "email": "xgc1986@gmail.com"
+      "email": "happz@gmail.com"
     }
   ],
   "require": {
