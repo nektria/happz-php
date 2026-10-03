@@ -4,13 +4,18 @@ declare(strict_types=1);
 
 namespace Xgc\Utils;
 
+use ReflectionProperty;
 use Throwable;
 use Xgc\Dto\Clock;
 use Xgc\Dto\LocalClock;
+use Xgc\Exception\BaseException;
 use Xgc\Exception\InvalidArgumentException;
+use Xgc\Exception\MissingFieldRequiredToCreateClassException;
 
 use function count;
 use function in_array;
+use function is_callable;
+
 use function strlen;
 
 use const FILTER_VALIDATE_EMAIL;
@@ -20,12 +25,31 @@ use const FILTER_VALIDATE_EMAIL;
  */
 class Validate
 {
+    public static function classFieldReturnsNotNull(string $className, string $name, mixed $field): void
+    {
+        if ($field === null) {
+            throw new MissingFieldRequiredToCreateClassException($className, $name);
+        }
+    }
+
+    /**
+     * @param string[] $fields
+     */
+    public static function classFieldsReturnsNotNull(object $object, string $className, array $fields): void
+    {
+        foreach ($fields as $field) {
+            self::checkClassFieldReturnsNotNull($object, $className, $field);
+        }
+    }
+
     public static function color(string $field, string $value): void
     {
         if (preg_match('/#([a-f0-9]{3}){1,2}\b/i', $value) === false) {
             throw new InvalidArgumentException($field, $value, 'color');
         }
     }
+
+    // Strings
 
     public static function date(string $field, string $date): void
     {
@@ -42,8 +66,6 @@ class Validate
             throw new InvalidArgumentException($field, $value, 'email');
         }
     }
-
-    // Strings
 
     public static function greaterOrEqualThan(
         string $field,
@@ -335,6 +357,8 @@ class Validate
         }
     }
 
+    // numbers
+
     public static function uuid4(string $field, string $id): void
     {
         if (preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/', $id) !== 1) {
@@ -342,13 +366,16 @@ class Validate
         }
     }
 
-    /*
     private static function checkClassFieldReturnsNotNull(object $object, string $className, string $field): void
     {
         if (method_exists($object, $field)) {
             try {
-                /* phpstan-ignore-next-line *
-                if ($object->{$field}() === null) {
+                $getter = [$object, $field];
+                if (!is_callable($getter)) {
+                    throw new BaseException("{$className} does not implements {$field}()");
+                }
+
+                if ($getter() === null) {
                     throw new MissingFieldRequiredToCreateClassException($className, $field);
                 }
             } catch (Throwable $e) {
@@ -359,13 +386,16 @@ class Validate
                 throw new BaseException("{$className} does not implements {$field}()");
             }
         } elseif (property_exists($object, $field)) {
-            /* phpstan-ignore-next-line *
-            if ($object->{$field} === null) {
+            $property = new ReflectionProperty($object, $field);
+            if (!$property->isPublic()) {
+                throw new BaseException("{$className} does not implements {$field}()");
+            }
+
+            if ($property->getValue($object) === null) {
                 throw new MissingFieldRequiredToCreateClassException($className, $field);
             }
         } else {
             throw new BaseException("{$className} does not implements {$field}()");
         }
     }
-    */
 }
