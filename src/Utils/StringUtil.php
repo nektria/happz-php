@@ -7,6 +7,7 @@ namespace Xgc\Utils;
 use Random\Randomizer;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use Throwable;
+use ValueError;
 
 use function strlen;
 
@@ -42,6 +43,14 @@ class StringUtil
         }
         if ($symbols) {
             $chars .= self::SYMBOLS;
+        }
+
+        if ($chars === '') {
+            throw new ValueError('At least one character set must be enabled.');
+        }
+
+        if ($length < 1) {
+            throw new ValueError('Length must be greater than zero.');
         }
 
         return $randomizer->getBytesFromString(

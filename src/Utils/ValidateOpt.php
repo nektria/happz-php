@@ -40,8 +40,6 @@ readonly class ValidateOpt
         }
     }
 
-    // numbers
-
     /**
      * @param CtTimeFormat $in
      */
@@ -119,6 +117,13 @@ readonly class ValidateOpt
     {
         if ($value !== null) {
             Validate::latitude($field, $value);
+        }
+    }
+
+    public static function lessOrEqualThan(string $field, int | float | null $value, int | float $limit): void
+    {
+        if ($value !== null) {
+            Validate::lessOrEqualThan($field, $value, $limit);
         }
     }
 
