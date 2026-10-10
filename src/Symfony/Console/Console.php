@@ -43,18 +43,6 @@ abstract class Console extends BaseCommand
         $this->output()->write("\007");
     }
 
-    public function successMessage(string $message): void
-    {
-        $consoleStyle = new SymfonyStyle($this->input(), $this->output()->interface());
-        $consoleStyle->success($message);
-    }
-
-    public function note(string $message): void
-    {
-        $consoleStyle = new SymfonyStyle($this->input(), $this->output()->interface());
-        $consoleStyle->note($message);
-    }
-
     protected function bus(): BusInterface
     {
         return $this->service(BusInterface::class);
@@ -98,6 +86,12 @@ abstract class Console extends BaseCommand
         return $this->bus()->dispatchQuery($query);
     }
 
+    protected function errorMessage(string $message): void
+    {
+        $consoleStyle = new SymfonyStyle($this->input(), $this->output()->interface());
+        $consoleStyle->error($message);
+    }
+
     /**
      * @throws Throwable
      */
@@ -136,6 +130,12 @@ abstract class Console extends BaseCommand
         return $this->input;
     }
 
+    protected function noteMessage(string $message): void
+    {
+        $consoleStyle = new SymfonyStyle($this->input(), $this->output()->interface());
+        $consoleStyle->note($message);
+    }
+
     protected function output(): OutputService
     {
         return $this->output;
@@ -155,5 +155,11 @@ abstract class Console extends BaseCommand
         $value = $this->input()->getOption($name);
 
         return !is_string($value) ? null : $value;
+    }
+
+    protected function successMessage(string $message): void
+    {
+        $consoleStyle = new SymfonyStyle($this->input(), $this->output()->interface());
+        $consoleStyle->success($message);
     }
 }
