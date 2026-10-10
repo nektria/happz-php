@@ -317,7 +317,7 @@ abstract class InternalReferenceRedisCache extends RedisCache
 
         try {
             $item = implode(',', $items);
-            $this->init()->set("{$this->fqn}:{$key}", $item, $ttl);
+            $this->init()->set("{$this->fqn}:{$key}", $item, ['ex' => $ttl]);
         } catch (Throwable) {
         }
     }
@@ -329,7 +329,7 @@ abstract class InternalReferenceRedisCache extends RedisCache
         }
 
         try {
-            $this->init()->set("{$this->fqn}:{$key}", $item, $ttl);
+            $this->init()->set("{$this->fqn}:{$key}", $item, ['ex' => $ttl]);
         } catch (Throwable) {
         }
     }

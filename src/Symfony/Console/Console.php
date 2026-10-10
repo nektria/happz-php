@@ -8,6 +8,7 @@ use Symfony\Component\Console\Command\Command as BaseCommand;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Messenger\Stamp\DelayStamp;
 use Throwable;
 use Xgc\Dto\Document;
@@ -40,6 +41,18 @@ abstract class Console extends BaseCommand
     protected function beep(): void
     {
         $this->output()->write("\007");
+    }
+
+    public function successMessage(string $message): void
+    {
+        $consoleStyle = new SymfonyStyle($this->input(), $this->output()->interface());
+        $consoleStyle->success($message);
+    }
+
+    public function note(string $message): void
+    {
+        $consoleStyle = new SymfonyStyle($this->input(), $this->output()->interface());
+        $consoleStyle->note($message);
     }
 
     protected function bus(): BusInterface

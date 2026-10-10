@@ -50,10 +50,10 @@ class StaticAnalysisConsole extends Console
         $messages = [];
 
         $failed = false;
-        foreach ($data as $hash => $endpoint) {
+        foreach ($data as $endpoint) {
             [$controller, $method] = explode('::', $endpoint['defaults']['_controller']);
 
-            $errors = $this->analyseEndpoint($hash, $endpoint);
+            $errors = $this->analyseEndpoint($endpoint);
             if (count($errors) === 0) {
                 continue;
             }
@@ -61,7 +61,7 @@ class StaticAnalysisConsole extends Console
             $failed = true;
             $messages[$controller] ??= [];
             $messages[$controller][$method] ??= [];
-            $messages[$controller][$method] = $this->analyseEndpoint($hash, $endpoint);
+            $messages[$controller][$method] = $errors;
         }
 
         foreach ($messages as $controller => $methods) {
@@ -103,7 +103,7 @@ class StaticAnalysisConsole extends Console
      * } $endpoint
      * @return string[]
      */
-    private function analyseEndpoint(string $hash, array $endpoint): array
+    private function analyseEndpoint(array $endpoint): array
     {
         if (str_starts_with($endpoint['path'], '/_')) {
             return [];

@@ -83,7 +83,7 @@ abstract class SharedRedisCache extends RedisCache
         }
 
         try {
-            $this->init()->set("{$this->fqn}:{$key}", serialize($item), $ttl);
+            $this->init()->set("{$this->fqn}:{$key}", serialize($item), ['ex' => $ttl]);
         } catch (Throwable) {
         }
     }
