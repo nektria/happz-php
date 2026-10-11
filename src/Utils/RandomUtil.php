@@ -49,6 +49,15 @@ class RandomUtil
         }
     }
 
+    public static function string(): string
+    {
+        try {
+            return bin2hex(random_bytes(32));
+        } catch (RandomException $e) {
+            throw BaseException::extend($e);
+        }
+    }
+
     public static function uuid4(): string
     {
         return sprintf(
